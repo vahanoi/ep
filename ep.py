@@ -2,6 +2,7 @@
 import os
 import re
 from typing import List, Any, Union
+from test.sortperf import flush
 
 '''
 QOS string example
@@ -39,8 +40,8 @@ CSV_header = "Date,Time,ms,Call ID,Device Type,Number,BaseExtn,IP Address,Peer I
                 "Jitter Avg,Round Trip Delay Max,Round Trip Avg, Packet Loss Max, Packet Loss Avg"
 output_file = input("Enter output file name : ")
 outputfile = open(output_file,'w')
-outputfile.write(CSV_header + "\n")
-line_found = False  # Initialize line_found as False
+outputfile.write(CSV_header + "\n") # Write CSV header with new line at the end
+line_found = False  # Initialise line_found as False
 joined_line = ""
 
 # Append a directory separator if not already present
@@ -100,6 +101,9 @@ for fname in os.listdir(path=search_path):
 
                 # Increment line counter
                 line_no += 1
+                if line_no % 1000 == 0:  # if modulo = 0 print line number (every 1000) 
+                    print ("\rProcessed:", line_no, "lines",end="", flush=True)
+
         # Close the files
         fo.close()
 outputfile.close()
