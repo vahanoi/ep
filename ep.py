@@ -1,8 +1,6 @@
 # Import os module
 import os
 import re
-from typing import List, Any, Union
-from test.sortperf import flush
 
 '''
 QOS string example
@@ -12,17 +10,17 @@ QOS string example
 
 1. join string into single line
 2. use regular expression to check error values
-3. extract details to a CSV (?) for Excel analysis
-
+3. extract details to a CSV (?) for Excel analysis - done 
+33. add exceptions to serve the errors
 '''
 
 # Ask the user to enter string to search
 search_path = input("Enter directory path to search : ")
-file_type = input("File Type : ")
+file_type =  'txt' # input("File Type : ")
 # search_str = input("Enter the search string : ") # Enter search string - disabled for default QOS Data string
 search_str_line1 = "PRN: QOS Data"
 
-# https://regex101.com/r/LZCAu4/2
+# https://regex101.com/r/LZCAu4/2  
 regex_line1 = re.compile(r"^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}).(\d*)[a-zA-Z :=]{26}(\d*)[Da-z= ]{8}([a-zA-Z]*)"
                          r"[a-zA-Z(=]{8}(\d*)[a-zA-Z=, ]{11}(\d*)\) [a-zA-Z: ]{11}(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
                          r"[a-zA-Z :]{17}(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[a-zA-Z =]{15}(\d*)s$")
