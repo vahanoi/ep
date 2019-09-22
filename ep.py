@@ -11,7 +11,7 @@ QOS string example
 1. join string into single line
 2. use regular expression to check error values
 3. extract details to a CSV (?) for Excel analysis - done 
-33. add exceptions to serve the errors
+4. add exceptions to serve the errors
 '''
 
 
