@@ -14,9 +14,10 @@ QOS string example
 33. add exceptions to serve the errors
 '''
 
+
 # Ask the user to enter string to search
 search_path = input("Enter directory path to search : ")
-file_type =  'txt' # input("File Type : ")
+file_type =  'txt'  # replaced prompt to make it faster input("File Type : ")
 # search_str = input("Enter the search string : ") # Enter search string - disabled for default QOS Data string
 search_str_line1 = "PRN: QOS Data"
 
@@ -25,7 +26,6 @@ regex_line1 = re.compile(r"^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}).(\d*)[a-zA-Z
                          r"[a-zA-Z(=]{8}(\d*)[a-zA-Z=, ]{11}(\d*)\) [a-zA-Z: ]{11}(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
                          r"[a-zA-Z :]{17}(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[a-zA-Z =]{15}(\d*)s$")
 
-# CSV_values: = [['cDate', ''], [cTime, '']]
 
 search_str_line2 = "PRN: QOS Data Continued"
 
@@ -37,7 +37,14 @@ regex_line2 = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d*[a-zA-Z :=]{3
 CSV_header = "Date,Time,ms,Call ID,Device Type,Number,BaseExtn,IP Address,Peer IP Address,Call Duration,Jitter Max," \
                 "Jitter Avg,Round Trip Delay Max,Round Trip Avg, Packet Loss Max, Packet Loss Avg"
 output_file = input("Enter output file name : ")
-outputfile = open(output_file,'w')
+
+try:
+    outputfile = open(output_file,'w')
+except FileExistsError:
+    print ("File" + output_file + "exists")
+    exit(1)
+
+
 outputfile.write(CSV_header + "\n") # Write CSV header with new line at the end
 line_found = False  # Initialise line_found as False
 joined_line = ""
