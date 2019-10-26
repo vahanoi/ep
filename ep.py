@@ -1,6 +1,8 @@
 # Import os module
 import os
 import re
+import sys
+
 
 '''
 QOS string example
@@ -8,18 +10,37 @@ QOS string example
 2019-09-05T12:41:17 3042740332mS PRN: QOS Data: Call ID=62698 Device=Phone(Number=7605, BaseExtn=7605) IP Address:192.168.222.96 Peer IP Address:192.168.251.2 Call Duration=29s
 2019-09-05T12:41:17 3042740332mS PRN: QOS Data Continued Jitter: Max=0ms Avg=0ms Round Trip Delay: Max=16ms Avg=15ms Packet Loss: Max=0/1000 Avg=0/1000
 
-1. join string into single line
-2. use regular expression to check error values
-3. extract details to a CSV (?) for Excel analysis - done 
-4. add exceptions to serve the errors
-'''
+1. use regular expression to check error values - done
+2. extract details to a CSV (?) for Excel analysis - done 
+3. add exceptions to serve the errors
 
+TODO : create object for a file and search patterns
+disable interactive options - folder output file - running use options
+'''
+class logfile:
+    def __init__ (self,fname,fdir,fmode=r):
+        self.filname = fname
+        self.filedirectory = fdir
+        self.filemode = fmode 
+    def open (self):
+        None
+    def close (self):
+        None
+    
+    '''filedirectory - file location, 
+       filetype - file extension for bulk file analysis
+       filemode
+       
+    '''
 
 # Ask the user to enter string to search
 search_path = input("Enter directory path to search : ")
 file_type =  'txt'  # replaced prompt to make it faster input("File Type : ")
 # search_str = input("Enter the search string : ") # Enter search string - disabled for default QOS Data string
 search_str_line1 = "PRN: QOS Data"
+for xxx in sys.argv():
+    xxx = sys.argv
+
 
 # https://regex101.com/r/LZCAu4/2  
 regex_line1 = re.compile(r"^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}).(\d*)[a-zA-Z :=]{26}(\d*)[Da-z= ]{8}([a-zA-Z]*)"
@@ -27,17 +48,18 @@ regex_line1 = re.compile(r"^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}).(\d*)[a-zA-Z
                          r"[a-zA-Z :]{17}(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[a-zA-Z =]{15}(\d*)s$")
 
 
-search_str_line2 = "PRN: QOS Data Continued"
+search_str_line2 = "PRN: QOS Data Continued" #TODO: check if this is necessary
 
 # https://regex101.com/r/7aaBZ1/1
 regex_line2 = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d*[a-zA-Z :=]{39}(\d*)ms.Avg=(\d*)ms[a-zA-Z :=]*"
                          r"(\d*)ms Avg=(\d*)[a-zA-Z:= ]*(\d*\/\d*) Avg=(\d*\/\d*)$")
 
-
+# Define CSV file header as a single string
 CSV_header = "Date,Time,ms,Call ID,Device Type,Number,BaseExtn,IP Address,Peer IP Address,Call Duration,Jitter Max," \
                 "Jitter Avg,Round Trip Delay Max,Round Trip Avg, Packet Loss Max, Packet Loss Avg"
 output_file = input("Enter output file name : ")
 
+# open file and serve exception if file doesn't exist - exit with error 1
 try:
     outputfile = open(output_file,'w')
 except FileExistsError:
@@ -69,7 +91,7 @@ for fname in os.listdir(path=search_path):
         # Read the first line from the file
         line = fo.readline()
 
-        # Initialize counter for line number
+        # Initialise counter for line number
         line_no = 1
         csv_line = ''
         block_list = []
