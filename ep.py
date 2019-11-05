@@ -18,7 +18,7 @@ TODO : create object for a file and search patterns
 disable interactive options - folder output file - running use options
 '''
 class logfile:
-    def __init__ (self,fname,fdir,fmode=r):
+    def __init__ (self,fname,fdir,fmode='r'):
         self.filname = fname
         self.filedirectory = fdir
         self.filemode = fmode 
@@ -48,7 +48,7 @@ regex_line1 = re.compile(r"^(\d{4}-\d{2}-\d{2})T(\d{2}:\d{2}:\d{2}).(\d*)[a-zA-Z
                          r"[a-zA-Z :]{17}(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})[a-zA-Z =]{15}(\d*)s$")
 
 
-search_str_line2 = "PRN: QOS Data Continued" #TODO: check if this is necessary
+#search_str_line2 = "PRN: QOS Data Continued" #TODO: check if this is necessary
 
 # https://regex101.com/r/7aaBZ1/1
 regex_line2 = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d*[a-zA-Z :=]{39}(\d*)ms.Avg=(\d*)ms[a-zA-Z :=]*"
